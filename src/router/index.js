@@ -131,6 +131,18 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
+      path: '/contributions',
+      name: 'contributions',
+      component: () => import('../views/contribution/ContributionsListView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/contributions/create',
+      name: 'contribution-create',
+      component: () => import('../views/contribution/ContributionCreateView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/NotFoundView.vue'),
