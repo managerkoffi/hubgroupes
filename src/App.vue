@@ -2,20 +2,37 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from './stores/auth'
 
 // État pour gérer l'affichage du menu mobile
 const isMobileMenuOpen = ref(false)
+const isUserMenuOpen = ref(false)
 const route = useRoute()
 const router = useRouter()
+const authStore = useAuthStore()
 
 // Vérifier si l'utilisateur est authentifié
 const isAuthenticated = computed(() => {
   return !!localStorage.getItem('token')
 })
 
+// Récupérer les informations de l'utilisateur
+const user = computed(() => {
+  return authStore.user
+})
+
+// Fonction pour obtenir les initiales de l'utilisateur
+const getUserInitials = computed(() => {
+  if (!user.value) return 'U';
+  const firstName = user.value.firstName || '';
+  const lastName = user.value.lastName || '';
+  return (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+})
+
 // Fermer le menu mobile lors du changement de route
 onMounted(() => {
   isMobileMenuOpen.value = false
+  isUserMenuOpen.value = false
 })
 
 // Fonction pour déconnexion
@@ -23,6 +40,30 @@ const logout = () => {
   localStorage.removeItem('token')
   router.push({ name: 'login' })
 }
+
+// Fonction pour basculer le menu utilisateur
+const toggleUserMenu = () => {
+  isUserMenuOpen.value = !isUserMenuOpen.value
+}
+
+// Fermer le menu utilisateur si on clique ailleurs
+const closeUserMenu = (event) => {
+  if (!event.target.closest('.user-menu-container')) {
+    isUserMenuOpen.value = false
+  }
+}
+
+// Ajouter un écouteur d'événement pour fermer le menu utilisateur
+onMounted(() => {
+  document.addEventListener('click', closeUserMenu)
+})
+
+// Supprimer l'écouteur d'événement lors du démontage du composant
+onMounted(() => {
+  return () => {
+    document.removeEventListener('click', closeUserMenu)
+  }
+})
 </script>
 
 <template>
@@ -31,12 +72,14 @@ const logout = () => {
     <nav class="bg-indigo-600 shadow-lg">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-          <div class="flex">
-            <div class="flex-shrink-0 flex items-center">
-              <RouterLink to="/" class="text-white font-bold text-xl">HubGroupes</RouterLink>
-            </div>
-            <!-- Navigation desktop -->
-            <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+          <!-- Logo -->
+          <div class="flex-shrink-0 flex items-center">
+            <RouterLink to="/" class="text-white font-bold text-xl">HubGroupes</RouterLink>
+          </div>
+
+          <!-- Navigation desktop et avatar -->
+          <div class="hidden sm:flex sm:items-center sm:space-x-4">
+            <div class="flex items-center space-x-4 mr-4">
               <RouterLink to="/" class="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">
                 Accueil
               </RouterLink>
@@ -62,36 +105,66 @@ const logout = () => {
                   Marketplace
                 </RouterLink>
               </template>
-
             </div>
-          </div>
 
-          <!-- Boutons de connexion/profil -->
-          <div class="hidden sm:ml-6 sm:flex sm:items-center">
-            <template v-if="isAuthenticated">
-              <RouterLink to="/messages"
-                class="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium mr-2">
-                Messages
-              </RouterLink>
-              <RouterLink to="/profile"
-                class="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium mr-2">
-                Profil
-              </RouterLink>
-              <button @click="logout"
-                class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md text-sm font-medium">
-                Déconnexion
-              </button>
-            </template>
-            <template v-else>
-              <RouterLink to="/login"
-                class="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium mr-2">
-                Connexion
-              </RouterLink>
-              <RouterLink to="/register"
-                class="bg-white text-indigo-600 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">
-                Inscription
-              </RouterLink>
-            </template>
+            <!-- Avatar et dropdown -->
+            <div class="flex items-center">
+              <template v-if="isAuthenticated">
+                <!-- Avatar de l'utilisateur avec dropdown -->
+                <div class="relative user-menu-container">
+                  <button @click="toggleUserMenu" class="flex items-center focus:outline-none">
+                    <div v-if="user && user.avatar" class="h-8 w-8 rounded-full overflow-hidden">
+                      <img :src="user.avatar" alt="Avatar de l'utilisateur" class="h-full w-full object-cover" />
+                    </div>
+                    <div v-else class="h-8 w-8 rounded-full bg-indigo-800 flex items-center justify-center text-white">
+                      {{ getUserInitials }}
+                    </div>
+                  </button>
+
+                  <!-- Menu dropdown -->
+                  <div v-if="isUserMenuOpen"
+                    class="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg py-1 z-10 ring-1 ring-black ring-opacity-5">
+                    <RouterLink to="/messages"
+                      class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      Messages
+                    </RouterLink>
+                    <RouterLink to="/profile"
+                      class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      Profil
+                    </RouterLink>
+                    <button @click="logout"
+                      class="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                      </svg>
+                      Déconnexion
+                    </button>
+                  </div>
+                </div>
+              </template>
+              <template v-else>
+                <RouterLink to="/login"
+                  class="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium mr-2">
+                  Connexion
+                </RouterLink>
+                <RouterLink to="/register"
+                  class="bg-white text-indigo-600 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">
+                  Inscription
+                </RouterLink>
+              </template>
+            </div>
           </div>
 
           <!-- Bouton menu mobile -->
@@ -137,6 +210,23 @@ const logout = () => {
               class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
               Marketplace
             </RouterLink>
+
+            <!-- Informations utilisateur -->
+            <div class="border-t border-indigo-800 mt-2 pt-2">
+              <div class="flex items-center px-3 py-2">
+                <div v-if="user && user.avatar" class="h-8 w-8 rounded-full overflow-hidden mr-3">
+                  <img :src="user.avatar" alt="Avatar de l'utilisateur" class="h-full w-full object-cover" />
+                </div>
+                <div v-else class="h-8 w-8 rounded-full bg-indigo-800 flex items-center justify-center text-white mr-3">
+                  {{ getUserInitials }}
+                </div>
+                <div class="text-white">
+                  <p class="text-sm font-medium">{{ user ? `${user.firstName} ${user.lastName}` : 'Utilisateur' }}</p>
+                  <p class="text-xs opacity-75">{{ user ? user.email : '' }}</p>
+                </div>
+              </div>
+            </div>
+
             <RouterLink to="/messages"
               class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
               Messages
@@ -160,16 +250,13 @@ const logout = () => {
               Inscription
             </RouterLink>
           </template>
-          <RouterLink to="/about"
-            class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
-            À propos
-          </RouterLink>
         </div>
       </div>
     </nav>
 
     <!-- Contenu principal -->
-    <main class="w-full mx-auto py-4 overflow-x-hidden">
+    <main class="w-full mx-auto  overflow-x-hidden"
+      :class="{ 'py-4 mx-auto px-4 sm:px-6 lg:px-8': route.path !== '/' }">
       <RouterView />
     </main>
 

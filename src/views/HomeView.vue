@@ -67,7 +67,7 @@ const testimonials = ref([
         </div>
         <div class="md:w-1/2">
           <div class="bg-white p-2 rounded-lg shadow-2xl">
-            <img src="https://via.placeholder.com/600x400?text=HubGroupes+Dashboard" alt="HubGroupes Dashboard" class="rounded w-full" />
+            <img src="@/assets/images/dashboard.jpg" alt="HubGroupes Dashboard" class="rounded w-full" />
           </div>
         </div>
       </div>
@@ -127,7 +127,7 @@ const testimonials = ref([
           </div>
           <div class="md:w-1/2 md:pl-12">
             <div class="bg-gray-800 p-2 rounded-lg shadow-2xl">
-              <img src="https://via.placeholder.com/600x400?text=Interface+HubGroupes" alt="Interface HubGroupes" class="rounded w-full" />
+              <img src="@/assets/images/interface.jpg" alt="Interface HubGroupes" class="rounded w-full" />
             </div>
           </div>
         </div>
@@ -154,11 +154,11 @@ const testimonials = ref([
         </div>
 
         <div class="mt-16 flex flex-wrap justify-center gap-8">
-          <img src="https://via.placeholder.com/150x50?text=Client+Logo" alt="Client Logo" class="h-8 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" />
-          <img src="https://via.placeholder.com/150x50?text=Client+Logo" alt="Client Logo" class="h-8 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" />
-          <img src="https://via.placeholder.com/150x50?text=Client+Logo" alt="Client Logo" class="h-8 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" />
-          <img src="https://via.placeholder.com/150x50?text=Client+Logo" alt="Client Logo" class="h-8 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" />
-          <img src="https://via.placeholder.com/150x50?text=Client+Logo" alt="Client Logo" class="h-8 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" />
+          <img src="@/assets/images/client-logo1.jpg" alt="Client Logo" class="h-16 rounded-lg grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" />
+          <img src="@/assets/images/client-logo2.jpg" alt="Client Logo" class="h-16 rounded-lg grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" />
+          <img src="@/assets/images/client-logo3.jpg" alt="Client Logo" class="h-16 rounded-lg grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" />
+          <img src="@/assets/images/client-logo1.jpg" alt="Client Logo" class="h-16 rounded-lg grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" />
+          <img src="@/assets/images/client-logo2.jpg" alt="Client Logo" class="h-16 rounded-lg grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" />
         </div>
       </div>
     </section>
