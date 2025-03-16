@@ -69,6 +69,9 @@ const navigateToDetail = (communityId) => {
 const navigateToCreate = () => {
   router.push({ name: 'community-create' })
 }
+const editCommunity = () => {
+  router.push({ name: "community-edit" })
+}
 </script>
 
 <template>
@@ -152,107 +155,115 @@ const navigateToCreate = () => {
       </div>
     </div>
 
-    <!-- Liste des communautés -->
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <BaseCard v-for="community in filteredCommunities" :key="community.id" padding="none" shadow="md"
-        class="cursor-pointer hover:shadow-lg transition-all duration-300 overflow-hidden group border border-gray-100 rounded-lg"
-        @click="navigateToDetail(community.id)">
-        <div class="relative h-48">
-          <img
-            :src="community.coverImage || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'"
-            class="absolute h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            alt="Couverture de la communauté" />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-
-          <!-- Badge de statut -->
-          <div class="absolute top-3 right-3">
-            <span v-if="community.isOwner"
-              class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 shadow-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clip-rule="evenodd" />
-              </svg>
-              Propriétaire
-            </span>
-            <span v-else-if="community.isMember"
-              class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 shadow-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path
-                  d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-              </svg>
-              Membre
-            </span>
-          </div>
-
-          <!-- Informations principales -->
-          <div class="absolute bottom-0 left-0 right-0 p-4">
-            <div class="flex items-center mb-1">
-              <span class="inline-block h-2 w-2 rounded-full bg-green-400 mr-2"></span>
-              <p class="text-sm font-medium text-white/90">{{ community.type || 'Communauté' }}</p>
-            </div>
-            <h3 class="text-xl font-bold text-white mb-1">{{ community.name }}</h3>
-            <div class="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white/70 mr-1" viewBox="0 0 20 20"
-                fill="currentColor">
-                <path
-                  d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-              </svg>
-              <p class="text-sm text-white/70">{{ community.memberCount }} membres</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="p-4">
-          <p class="text-sm text-gray-600 line-clamp-2 mb-4">{{ community.description }}</p>
-
-          <!-- Tags de la communauté -->
-          <div class="flex flex-wrap gap-2 mb-4">
-            <span
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-              {{ community.type || 'Communauté' }}
-            </span>
-            <span v-if="community.status === 'active'"
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-              Active
-            </span>
-            <span v-else
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-              En attente
-            </span>
-            <span v-if="community.isNew"
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-              Nouveau
-            </span>
-          </div>
-
-          <div class="flex justify-between items-center">
-            <div class="flex -space-x-2 overflow-hidden">
-              <img v-for="(member, index) in community.recentMembers || []" :key="index"
-                class="inline-block h-7 w-7 rounded-full ring-2 ring-white" :src="member.avatar"
-                :alt="`${member.name}`" />
-
-            </div>
-
-            <div class="text-sm text-gray-500">
-              <span v-if="community.lastActivity" class="flex items-center">
-                <svg class="h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                    clip-rule="evenodd" />
-                </svg>
-                {{ community.lastActivity }}
-              </span>
-            </div>
-          </div>
-          <div class="flex justify-end">
-
-            <BaseButton variant="primary" class="mt-4" @click="navigateToDetail(community.id)">
-              Voir la communauté
-            </BaseButton>
-          </div>
-        </div>
-      </BaseCard>
+    <!-- Liste des communautés (format tableau) -->
+    <div v-else class="bg-white shadow rounded-lg overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Communauté
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Type
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Membres
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Statut
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Dernière activité
+              </th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr v-for="community in filteredCommunities" :key="community.id" class="hover:bg-gray-50 cursor-pointer"
+              @click="navigateToDetail(community.id)">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="h-10 w-10 flex-shrink-0 overflow-hidden rounded-md bg-gray-200">
+                    <img
+                      :src="community.coverImage || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'"
+                      class="h-full w-full object-cover" alt="Couverture de la communauté" />
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">{{ community.name }}</div>
+                    <div class="text-xs text-gray-500 line-clamp-1 max-w-xs">{{ community.description }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{ community.type || 'Communauté' }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex -space-x-2 overflow-hidden mr-2">
+                    <img v-for="(member, index) in (community.recentMembers || []).slice(0, 3)" :key="index"
+                      class="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                      :src="member.avatar || 'https://ui-avatars.com/api/?name=User&background=random'"
+                      :alt="`${member.name || 'Membre'}`" />
+                  </div>
+                  <span class="text-sm text-gray-500">{{ community.memberCount || 0 }}</span>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <span v-if="community.isOwner"
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" viewBox="0 0 20 20"
+                      fill="currentColor">
+                      <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    Propriétaire
+                  </span>
+                  <span v-else-if="community.isMember"
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" viewBox="0 0 20 20"
+                      fill="currentColor">
+                      <path
+                        d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                    </svg>
+                    Membre
+                  </span>
+                  <span v-else
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                    Non membre
+                  </span>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-500">
+                  <span v-if="community.lastActivity" class="flex items-center">
+                    <svg class="h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                      fill="currentColor">
+                      <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    {{ community.lastActivity }}
+                  </span>
+                  <span v-else>-</span>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <button @click.stop="navigateToDetail(community.id)" class="text-indigo-600 hover:text-indigo-900 mr-3">
+                  Voir
+                </button>
+                <button v-if="community.isOwner" @click.stop="editCommunity" class="text-blue-600 hover:text-blue-900">
+                  Éditer
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

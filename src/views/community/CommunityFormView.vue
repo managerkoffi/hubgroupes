@@ -151,7 +151,7 @@ const handleSubmit = async () => {
 }
 
 const handleCancel = () => {
-  router.push({ name: 'community-list' })
+  router.go(-1)
 }
 
 const handleImageUpload = (event, type) => {
