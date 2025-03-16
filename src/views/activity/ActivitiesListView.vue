@@ -480,14 +480,24 @@ function getEventClass(status) {
 }
 
 function formatDate(dateString) {
-  const date = new Date(dateString)
-  return new Intl.DateTimeFormat('fr-FR', { 
-    day: 'numeric', 
-    month: 'short', 
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  }).format(date)
+  try {
+    // Vérifier si la date est valide
+    if (!dateString || isNaN(new Date(dateString).getTime())) {
+      return 'Date non disponible';
+    }
+    
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('fr-FR', { 
+      day: 'numeric', 
+      month: 'short', 
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(date);
+  } catch (error) {
+    console.error('Erreur de formatage de date:', error, 'pour la valeur:', dateString);
+    return 'Date non disponible';
+  }
 }
 
 function canEdit(activity) {
