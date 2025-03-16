@@ -75,10 +75,10 @@ const toggleSidebar = () => {
         <nav class="flex-1 overflow-y-auto py-4">
           <div class="px-2 space-y-1">
             <RouterLink to="/communities" class="flex items-center px-4 py-2 text-sm font-medium rounded-md" :class="[
-                $route.path.includes('/communities') 
-                  ? 'text-indigo-600 bg-indigo-50' 
-                  : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-              ]">
+  $route.path.includes('/communities')
+    ? 'text-indigo-600 bg-indigo-50'
+    : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+]">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -88,10 +88,10 @@ const toggleSidebar = () => {
             </RouterLink>
 
             <RouterLink to="/members" class="flex items-center px-4 py-2 text-sm font-medium rounded-md" :class="[
-                $route.path.includes('/members') 
-                  ? 'text-indigo-600 bg-indigo-50' 
-                  : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-              ]">
+              $route.path.includes('/members')
+                ? 'text-indigo-600 bg-indigo-50'
+                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+            ]">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -101,10 +101,10 @@ const toggleSidebar = () => {
             </RouterLink>
 
             <RouterLink to="/activities" class="flex items-center px-4 py-2 text-sm font-medium rounded-md" :class="[
-                $route.path.includes('/activities') 
-                  ? 'text-indigo-600 bg-indigo-50' 
-                  : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-              ]">
+              $route.path.includes('/activities')
+                ? 'text-indigo-600 bg-indigo-50'
+                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+            ]">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -114,10 +114,10 @@ const toggleSidebar = () => {
             </RouterLink>
 
             <RouterLink to="/messages" class="flex items-center px-4 py-2 text-sm font-medium rounded-md" :class="[
-                $route.path.includes('/messages') 
-                  ? 'text-indigo-600 bg-indigo-50' 
-                  : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-              ]">
+              $route.path.includes('/messages')
+                ? 'text-indigo-600 bg-indigo-50'
+                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+            ]">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -127,10 +127,10 @@ const toggleSidebar = () => {
             </RouterLink>
 
             <RouterLink to="/subscriptions" class="flex items-center px-4 py-2 text-sm font-medium rounded-md" :class="[
-                $route.path.includes('/subscriptions') 
-                  ? 'text-indigo-600 bg-indigo-50' 
-                  : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-              ]">
+              $route.path.includes('/subscriptions')
+                ? 'text-indigo-600 bg-indigo-50'
+                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+            ]">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -140,10 +140,10 @@ const toggleSidebar = () => {
             </RouterLink>
 
             <RouterLink to="/marketplace" class="flex items-center px-4 py-2 text-sm font-medium rounded-md" :class="[
-                $route.path.includes('/marketplace') 
-                  ? 'text-indigo-600 bg-indigo-50' 
-                  : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-              ]">
+              $route.path.includes('/marketplace')
+                ? 'text-indigo-600 bg-indigo-50'
+                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+            ]">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -166,10 +166,10 @@ const toggleSidebar = () => {
             </RouterLink>
 
             <RouterLink to="/finances" class="flex items-center px-4 py-2 text-sm font-medium rounded-md" :class="[
-                $route.path.includes('/finances') 
-                  ? 'text-indigo-600 bg-indigo-50' 
-                  : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-              ]">
+              $route.path.includes('/finances')
+                ? 'text-indigo-600 bg-indigo-50'
+                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+            ]">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -183,23 +183,27 @@ const toggleSidebar = () => {
         <!-- Pied de la sidebar -->
         <div class="p-4 border-t border-gray-200">
           <RouterLink to="/profile"
-            class="flex items-center px-4 py-2 text-sm font-medium rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
+            class="flex items-center px-4 py-2 text-sm font-medium rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+            :class="{ 'justify-center': !isOpen }">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" :class="{ 'mr-0': !isOpen }" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
             <span v-if="isOpen">Profil</span>
+            <span v-else class="sr-only">Profil</span>
           </RouterLink>
 
           <button @click="logout"
-            class="flex items-center w-full px-4 py-2 mt-2 text-sm font-medium rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
+            class="flex items-center w-full px-4 py-2 mt-2 text-sm font-medium rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+            :class="{ 'justify-center': !isOpen }">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" :class="{ 'mr-0': !isOpen }" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
             <span v-if="isOpen">Déconnexion</span>
+            <span v-else class="sr-only">Déconnexion</span>
           </button>
         </div>
       </div>
