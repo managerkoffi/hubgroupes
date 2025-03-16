@@ -65,7 +65,7 @@ const handleLogin = async () => {
     
     // Rediriger après un court délai pour montrer le message de succès
     setTimeout(() => {
-      router.push({ name: 'home' })
+      router.push({ name: 'communities' })
     }, 1500)
   } catch (error) {
     errors.form = error || 'Une erreur est survenue lors de la connexion'
@@ -76,18 +76,15 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <BaseCard padding="large" shadow="lg">
         <div class="sm:mx-auto sm:w-full sm:max-w-md mb-5">
           <h2 class="text-center text-3xl font-bold tracking-tight text-gray-900">
-            Connexion à votre compte
+            <span class="text-indigo-600">HubGroupes</span>
           </h2>
           <p class="mt-2 text-center text-sm text-gray-600">
-            Ou
-            <router-link :to="{ name: 'register' }" class="font-medium text-indigo-600 hover:text-indigo-500">
-              créez un nouveau compte
-            </router-link>
+            Connectez-vous à votre compte
           </p>
         </div>
 
@@ -122,6 +119,15 @@ const handleLogin = async () => {
             </BaseButton>
           </div>
         </form>
+        
+        <div class="mt-6 text-center">
+          <p class="text-xs text-gray-500 mb-2">
+            Pas encore de compte ? <router-link :to="{ name: 'register' }" class="font-medium text-indigo-600 hover:text-indigo-500">Inscrivez-vous</router-link>
+          </p>
+          <p class="text-xs text-gray-500">
+            &copy; 2025 HubGroupes - La plateforme de gestion de communautés
+          </p>
+        </div>
       </BaseCard>
     </div>
   </div>
