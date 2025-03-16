@@ -16,16 +16,74 @@
 
         <!-- Contenu de la communauté -->
         <div v-else class="bg-white shadow rounded-lg overflow-hidden">
+            <!-- Image de couverture et logo -->
+            <div class="relative">
+                <!-- Image de couverture -->
+                <div class="h-48 md:h-64 w-full bg-gradient-to-r from-blue-500 to-indigo-600 overflow-hidden">
+                    <img 
+                        v-if="community.coverImage" 
+                        :src="community.coverImage" 
+                        alt="Couverture de la communauté"
+                        class="w-full h-full object-cover opacity-90"
+                    />
+                    <div v-else class="w-full h-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Logo de la communauté -->
+                <div class="absolute -bottom-12 left-6 md:left-8">
+                    <div class="h-24 w-24 md:h-28 md:w-28 rounded-full border-4 border-white shadow-md bg-white flex items-center justify-center overflow-hidden">
+                        <img 
+                            v-if="community.logo" 
+                            :src="community.logo" 
+                            alt="Logo de la communauté"
+                            class="w-full h-full object-cover"
+                        />
+                        <div v-else class="w-full h-full bg-indigo-100 flex items-center justify-center">
+                            <span class="text-3xl font-bold text-indigo-600">{{ community.name ? community.name.charAt(0).toUpperCase() : 'C' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- En-tête avec informations de base -->
-            <div class="p-6 border-b border-gray-200">
+            <div class="pt-16 pb-6 px-6 border-b border-gray-200">
                 <div class="flex flex-col md:flex-row justify-between items-start">
                     <div>
                         <h1 class="text-2xl font-bold text-gray-900">{{ community.name }}</h1>
-                        <p class="mt-1 text-sm text-gray-500">
-                            Créée le {{ formatDate(community.createdAt) }}
-                        </p>
+                        <div class="flex items-center mt-2 space-x-4">
+                            <div class="flex items-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                    {{ community.type || 'Communauté' }}
+                                </span>
+                            </div>
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                                </svg>
+                                {{ community.members ? community.members.length : 0 }} membres
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                Créée le {{ formatDate(community.createdAt) }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-4 md:mt-0">
+                    <div class="mt-4 md:mt-0 flex space-x-2">
+                        <router-link 
+                            v-if="isAdmin" 
+                            :to="{ name: 'community-dashboard', params: { id: community.id } }" 
+                            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
+                        >
+                            <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
+                                <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+                            </svg>
+                            Tableau de bord
+                        </router-link>
                         <button v-if="!isMember" @click="joinCommunity" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
                             Rejoindre
                         </button>
@@ -192,7 +250,16 @@ const fetchCommunity = async () => {
     error.value = null;
     try {
         const communityData = await communityStore.fetchCommunityById(communityId.value);
-        community.value = communityData;
+        
+        // Ajouter des données d'exemple pour l'image de couverture et le logo
+        // Dans un environnement de production, ces données viendraient de l'API
+        community.value = {
+            ...communityData,
+            coverImage: communityData.coverImage || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80',
+            logo: communityData.logo || (communityData.type === 'sports' ? 
+                'https://images.unsplash.com/photo-1546519638-68e109acd27d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' : 
+                null)
+        };
         
         await fetchActivities();
         await fetchDiscussions();

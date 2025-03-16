@@ -69,39 +69,39 @@ onMounted(() => {
 <template>
   <div class="min-h-screen bg-gray-50">
     <!-- Barre de navigation -->
-    <nav class="bg-indigo-600 shadow-lg">
+    <nav class="bg-white shadow-md border-b border-gray-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <!-- Logo -->
           <div class="flex-shrink-0 flex items-center">
-            <RouterLink to="/" class="text-white font-bold text-xl">HubGroupes</RouterLink>
+            <RouterLink to="/" class="text-indigo-600 font-bold text-xl">HubGroupes</RouterLink>
           </div>
 
           <!-- Navigation desktop et avatar -->
           <div class="hidden sm:flex sm:items-center sm:space-x-4">
             <div class="flex items-center space-x-4 mr-4">
-              <RouterLink to="/" class="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">
+              <RouterLink to="/" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
                 Accueil
               </RouterLink>
               <template v-if="isAuthenticated">
                 <RouterLink to="/communities"
-                  class="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">
+                  class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
                   Communautés
                 </RouterLink>
                 <RouterLink to="/members"
-                  class="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">
+                  class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
                   Membres
                 </RouterLink>
                 <RouterLink to="/activities"
-                  class="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">
+                  class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
                   Activités
                 </RouterLink>
                 <RouterLink to="/announcements"
-                  class="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">
+                  class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
                   Annonces
                 </RouterLink>
                 <RouterLink to="/marketplace"
-                  class="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">
+                  class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
                   Marketplace
                 </RouterLink>
               </template>
@@ -156,7 +156,7 @@ onMounted(() => {
               </template>
               <template v-else>
                 <RouterLink to="/login"
-                  class="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium mr-2">
+                  class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium mr-2">
                   Connexion
                 </RouterLink>
                 <RouterLink to="/register"
@@ -170,7 +170,7 @@ onMounted(() => {
           <!-- Bouton menu mobile -->
           <div class="flex items-center sm:hidden">
             <button @click="isMobileMenuOpen = !isMobileMenuOpen"
-              class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-indigo-700 focus:outline-none">
+              class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none">
               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path v-if="isMobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -186,33 +186,34 @@ onMounted(() => {
       <!-- Menu mobile -->
       <div :class="{ 'block': isMobileMenuOpen, 'hidden': !isMobileMenuOpen }" class="sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-          <RouterLink to="/" class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
+          <RouterLink to="/"
+            class="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
             Accueil
           </RouterLink>
           <template v-if="isAuthenticated">
             <RouterLink to="/communities"
-              class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
+              class="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
               Communautés
             </RouterLink>
             <RouterLink to="/members"
-              class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
+              class="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
               Membres
             </RouterLink>
             <RouterLink to="/activities"
-              class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
+              class="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
               Activités
             </RouterLink>
             <RouterLink to="/announcements"
-              class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
+              class="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
               Annonces
             </RouterLink>
             <RouterLink to="/marketplace"
-              class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
+              class="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
               Marketplace
             </RouterLink>
 
             <!-- Informations utilisateur -->
-            <div class="border-t border-indigo-800 mt-2 pt-2">
+            <div class="border-t border-gray-200 mt-2 pt-2">
               <div class="flex items-center px-3 py-2">
                 <div v-if="user && user.avatar" class="h-8 w-8 rounded-full overflow-hidden mr-3">
                   <img :src="user.avatar" alt="Avatar de l'utilisateur" class="h-full w-full object-cover" />
@@ -220,7 +221,7 @@ onMounted(() => {
                 <div v-else class="h-8 w-8 rounded-full bg-indigo-800 flex items-center justify-center text-white mr-3">
                   {{ getUserInitials }}
                 </div>
-                <div class="text-white">
+                <div class="text-gray-700">
                   <p class="text-sm font-medium">{{ user ? `${user.firstName} ${user.lastName}` : 'Utilisateur' }}</p>
                   <p class="text-xs opacity-75">{{ user ? user.email : '' }}</p>
                 </div>
@@ -228,25 +229,25 @@ onMounted(() => {
             </div>
 
             <RouterLink to="/messages"
-              class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
+              class="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
               Messages
             </RouterLink>
             <RouterLink to="/profile"
-              class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
+              class="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
               Profil
             </RouterLink>
             <button @click="logout"
-              class="w-full text-left text-white bg-red-500 hover:bg-red-600 block px-3 py-2 rounded-md text-base font-medium">
+              class="w-full text-left text-gray-700 bg-red-500 hover:bg-red-600 block px-3 py-2 rounded-md text-base font-medium">
               Déconnexion
             </button>
           </template>
           <template v-else>
             <RouterLink to="/login"
-              class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
+              class="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
               Connexion
             </RouterLink>
             <RouterLink to="/register"
-              class="text-white hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium">
+              class="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">
               Inscription
             </RouterLink>
           </template>
