@@ -125,6 +125,30 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
+      path: '/marketplace/my-products',
+      name: 'my-products',
+      component: () => import('../views/marketplace/ProductListView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/marketplace/products/create',
+      name: 'product-create',
+      component: () => import('../views/marketplace/ProductFormView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/marketplace/products/:id',
+      name: 'product-details',
+      component: () => import('../views/marketplace/ProductDetailsView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/marketplace/products/:id/edit',
+      name: 'product-edit',
+      component: () => import('../views/marketplace/ProductFormView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/finances',
       name: 'finances',
       component: () => import('../views/finance/FinanceView.vue'),

@@ -1,8 +1,18 @@
 <template>
     <div class="container mx-auto px-4 py-8">
-        <div class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">Marketplace</h1>
-            <p class="mt-1 text-sm text-gray-600">Découvrez des extensions et services pour améliorer vos communautés.</p>
+        <div class="mb-6 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Marketplace</h1>
+                <p class="mt-1 text-sm text-gray-600">Découvrez des extensions et services pour améliorer vos communautés.</p>
+            </div>
+            <div>
+                <router-link
+                    to="/marketplace/my-products"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Mes Produits
+                </router-link>
+            </div>
         </div>
 
         <!-- Filtres et recherche -->
@@ -107,6 +117,51 @@
                 </div>
             </div>
 
+            <!-- Produits des utilisateurs -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Produits des utilisateurs</h2>
+                <div v-if="userProducts.length === 0" class="text-center py-8 bg-white rounded-lg shadow">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">Aucun produit</h3>
+                    <p class="mt-1 text-sm text-gray-500">
+                        Aucun produit d'utilisateur n'est disponible pour le moment.
+                    </p>
+                </div>
+                <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div
+                        v-for="product in userProducts"
+                        :key="product.id"
+                        class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                    >
+                        <div class="relative pb-1/2">
+                            <img :src="product.image" :alt="product.name" class="absolute h-full w-full object-cover" />
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-medium text-gray-900">{{ product.name }}</h3>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                    {{ getCategoryName(product.categoryId) }}
+                                </span>
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500 line-clamp-2">{{ product.description }}</p>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="text-base font-medium text-gray-900">
+                                    {{ formatPrice(product.price) }}
+                                </span>
+                                <button
+                                    @click="viewProductDetails(product)"
+                                    class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                >
+                                    Voir détails
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Toutes les extensions -->
             <div>
                 <h2 class="text-xl font-semibold text-gray-900 mb-4">Toutes les extensions</h2>
@@ -175,6 +230,7 @@
 
 <script>
 import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default {
     name: 'MarketplaceView',
@@ -185,6 +241,8 @@ export default {
         const sortBy = ref('popular');
         const extensions = ref([]);
         const categories = ref([]);
+        const userProducts = ref([]); // Nouvelle variable pour les produits des utilisateurs
+        const router = useRouter();
 
         const featuredExtensions = computed(() => {
             return extensions.value.filter(ext => ext.featured).slice(0, 4);
@@ -352,6 +410,32 @@ export default {
                         createdAt: '2023-01-05T00:00:00Z'
                     }
                 ];
+                
+                // Données fictives pour les produits des utilisateurs
+                userProducts.value = [
+                    {
+                        id: '1',
+                        name: 'Produit Utilisateur 1',
+                        description: 'Description du produit utilisateur 1',
+                        image: 'https://via.placeholder.com/300x150?text=User+Product+1',
+                        price: 9.99,
+                        rating: 4.5,
+                        reviewCount: 20,
+                        categoryId: 'customization',
+                        createdAt: '2023-02-10T00:00:00Z'
+                    },
+                    {
+                        id: '2',
+                        name: 'Produit Utilisateur 2',
+                        description: 'Description du produit utilisateur 2',
+                        image: 'https://via.placeholder.com/300x150?text=User+Product+2',
+                        price: 14.99,
+                        rating: 4.2,
+                        reviewCount: 15,
+                        categoryId: 'communication',
+                        createdAt: '2023-01-15T00:00:00Z'
+                    }
+                ];
             } catch (error) {
                 console.error('Erreur lors du chargement des données:', error);
             } finally {
@@ -379,6 +463,12 @@ export default {
             }
         };
 
+        const viewProductDetails = (product) => {
+            console.log('Affichage des détails du produit:', product.name);
+            // Rediriger vers la page de détails du produit
+            router.push(`/marketplace/products/${product.id}`);
+        };
+
         onMounted(() => {
             fetchData();
         });
@@ -390,11 +480,13 @@ export default {
             sortBy,
             categories,
             extensions,
+            userProducts,
             featuredExtensions,
             filteredExtensions,
             getCategoryName,
             formatPrice,
-            installExtension
+            installExtension,
+            viewProductDetails
         };
     }
 };

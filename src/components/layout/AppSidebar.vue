@@ -152,6 +152,19 @@ const toggleSidebar = () => {
               <span v-if="isOpen">Marketplace</span>
             </RouterLink>
 
+            <RouterLink to="/marketplace/my-products" class="flex items-center px-4 py-2 text-sm font-medium rounded-md" :class="[
+              $route.path.includes('/marketplace/my-products')
+                ? 'text-indigo-600 bg-indigo-50'
+                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+            ]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+              <span v-if="isOpen">Produits</span>
+            </RouterLink>
+
             <RouterLink to="/announcements" class="flex items-center px-4 py-2 text-sm font-medium rounded-md" :class="[
               $route.path.includes('/announcements')
                 ? 'text-indigo-600 bg-indigo-50'
